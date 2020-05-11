@@ -1,4 +1,6 @@
 import React from "react";
+import ReactDOMServer from "react-dom/server";
+import L from "leaflet";
 import {
   useReportStore,
   useIsReportInitialized,
@@ -12,6 +14,7 @@ import {
 import { Map, Marker, TileLayer, LayersControl, Popup } from "react-leaflet";
 import GoogleLayer from "./components/GoogleLayer";
 import { GOOGLE_MAP_API_KEY } from "./config";
+import CustomIcon from "./components/CustomIcon";
 
 const key = GOOGLE_MAP_API_KEY;
 const MAP_KEYS = {
@@ -88,10 +91,15 @@ function App() {
       </LayersControl>
       {reports.map(({ coords, plague }, index) => {
         const { latitude, longitude } = coords;
-        const { name } = plagueStore.getPlague(plague);
+        const { name, color } = plagueStore.getPlague(plague);
+
+        const icon = L.divIcon({
+          className: "custom-icon",
+          html: ReactDOMServer.renderToString(<CustomIcon color={color} />),
+        });
 
         return (
-          <Marker key={index} position={[latitude, longitude]}>
+          <Marker key={index} icon={icon} position={[latitude, longitude]}>
             <Popup>{name}</Popup>
           </Marker>
         );
