@@ -29,7 +29,6 @@ export const ReportStore = types
   .actions((self) => {
     const getReports = () => {
       if (!self.initialized) return [];
-
       return getSnapshot(self.reports);
     };
     const fecthReports = flow(function* () {
