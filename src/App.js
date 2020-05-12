@@ -12,9 +12,11 @@ import {
 } from "./stores/hooks/usePlagueStore";
 
 import { Map, Marker, TileLayer, LayersControl, Popup } from "react-leaflet";
+import Control from "react-leaflet-control";
 import GoogleLayer from "./components/GoogleLayer";
 import { GOOGLE_MAP_API_KEY } from "./config";
 import CustomIcon from "./components/CustomIcon";
+import DateControl from "./components/ControlLayers/DateControl";
 
 const key = GOOGLE_MAP_API_KEY;
 const MAP_KEYS = {
@@ -89,6 +91,9 @@ function App() {
           />
         </LayersControl.BaseLayer>
       </LayersControl>
+      <Control position="topright">
+        <DateControl startDate="01-01-2019" endDate="01-01-2019" />
+      </Control>
       {reports.map(({ coords, plague }, index) => {
         const { latitude, longitude } = coords;
         const { name, color } = plagueStore.getPlague(plague);
