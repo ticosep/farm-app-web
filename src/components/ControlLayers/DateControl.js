@@ -1,11 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import { withLeaflet, Layer } from "react-leaflet";
 
 const ControlWrapper = styled.div`
   display: flex;
+  text-align: left;
 `;
-const DateControl = ({ startDate, endDate, setDates }) => {
+
+const StyledLabel = styled.span`
+  margin-right: 1rem;
+  min-width: 35px;
+`;
+
+const InputsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: left;
+`;
+const DateControl = ({ startDate = "", endDate = "", setDates }) => {
   const [start, setStart] = React.useState(startDate);
   const [end, setEnd] = React.useState(endDate);
 
@@ -15,25 +28,32 @@ const DateControl = ({ startDate, endDate, setDates }) => {
   }, [startDate, endDate]);
 
   const handleStartChange = (e) => {
-    console.log(e);
+    setStart(e.target.value);
+    setDates(e.target.value, end);
   };
 
   const handleEndChange = (e) => {
-    console.log(e);
+    setEnd(e.target.value);
+    setDates(start, e.target.value);
   };
 
   return (
-    <div>
+    <InputsWrapper>
       <ControlWrapper>
-        <span>Inicio: </span>
-        <input type="date" id="start" onChange={handleStartChange} />
+        <StyledLabel>Inicio: </StyledLabel>
+        <input
+          type="date"
+          value={start}
+          id="start"
+          onChange={handleStartChange}
+        />
       </ControlWrapper>
       <ControlWrapper>
-        <span>Fim: </span>
-        <input type="date" id="end" onChange={handleEndChange} />
+        <StyledLabel>Fim: </StyledLabel>
+        <input type="date" value={end} id="end" onChange={handleEndChange} />
       </ControlWrapper>
-    </div>
+    </InputsWrapper>
   );
 };
 
-export default withLeaflet(DateControl);
+export default DateControl;

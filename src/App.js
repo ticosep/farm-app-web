@@ -17,8 +17,21 @@ import GoogleLayer from "./components/GoogleLayer";
 import { GOOGLE_MAP_API_KEY } from "./config";
 import CustomIcon from "./components/CustomIcon";
 import DateControl from "./components/ControlLayers/DateControl";
+import AccuracyControl from "./components/ControlLayers/AccuracyControl";
+import styled from "styled-components";
+
+const StyledControl = styled(Control)`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  justify-content: space-around;
+
+  background-color: #ffffff;
+`;
 
 const key = GOOGLE_MAP_API_KEY;
+
 const MAP_KEYS = {
   terrain: "TERRAIN",
   road: "ROADMAP",
@@ -34,10 +47,22 @@ function App() {
 
   const storedReports = reportStore.getReports();
   const [reports, setReports] = React.useState([...storedReports]);
+  const [startDate, setStartDate] = React.useState(undefined);
+  const [endDate, setEndDate] = React.useState(undefined);
 
   React.useEffect(() => {
     setReports([...reportStore.getReports()]);
   }, [storedReports.length]);
+
+  const handleDateChange = (start, end) => {
+    if (!start || !end) return;
+
+    const startimestamp = new Date(start).getTime();
+    const endimestamp = new Date(end).getTime();
+
+    setStartDate(startimestamp);
+    setEndDate(endimestamp);
+  };
 
   const reportInitialized = useIsReportInitialized();
   const plagueInitialized = useIsPlagueInitialized();
@@ -53,6 +78,14 @@ function App() {
     const { longitude, latitude } = coords;
     initialRegion = [latitude, longitude];
   }
+
+  const filterDateReports = reports.filter(({ timestamp }) => {
+    if (!startDate || !endDate) return true;
+
+    if (timestamp > startDate && timestamp < endDate) return true;
+
+    return false;
+  });
 
   return (
     <Map
@@ -90,11 +123,11 @@ function App() {
             libraries={["geometry", "places"]}
           />
         </LayersControl.BaseLayer>
+        <StyledControl position="topright">
+          <DateControl setDates={handleDateChange} />
+        </StyledControl>
       </LayersControl>
-      <Control position="topright">
-        <DateControl startDate="01-01-2019" endDate="01-01-2019" />
-      </Control>
-      {reports.map(({ coords, plague }, index) => {
+      {filterDateReports.map(({ coords, plague }, index) => {
         const { latitude, longitude } = coords;
         const { name, color } = plagueStore.getPlague(plague);
 
