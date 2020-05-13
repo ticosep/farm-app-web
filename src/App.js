@@ -12,6 +12,9 @@ import {
 } from "./stores/hooks/usePlagueStore";
 
 import { Map, Marker, TileLayer, LayersControl, Popup } from "react-leaflet";
+
+import { faCalendarCheck, faBullseye } from "@fortawesome/free-solid-svg-icons";
+
 import Control from "react-leaflet-control";
 import GoogleLayer from "./components/GoogleLayer";
 import { GOOGLE_MAP_API_KEY } from "./config";
@@ -19,12 +22,12 @@ import CustomIcon from "./components/CustomIcon";
 import DateControl from "./components/ControlLayers/DateControl";
 import AccuracyControl from "./components/ControlLayers/AccuracyControl";
 import styled from "styled-components";
+import ControlButton from "./components/ControlLayers/ControlButton";
 
 const StyledControl = styled(Control)`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 2rem;
   justify-content: space-around;
 
   background-color: #ffffff;
@@ -49,19 +52,27 @@ function App() {
   const [reports, setReports] = React.useState([...storedReports]);
   const [startDate, setStartDate] = React.useState(undefined);
   const [endDate, setEndDate] = React.useState(undefined);
+  const [currentAccuracy, setAccuracy] = React.useState(40);
 
   React.useEffect(() => {
     setReports([...reportStore.getReports()]);
   }, [storedReports.length]);
 
   const handleDateChange = (start, end) => {
-    if (!start || !end) return;
+    if (!start || !end) {
+      setStartDate(undefined);
+      setEndDate(undefined);
+    }
 
     const startimestamp = new Date(start).getTime();
     const endimestamp = new Date(end).getTime();
 
     setStartDate(startimestamp);
     setEndDate(endimestamp);
+  };
+
+  const handleAccuracyChange = (value) => {
+    setAccuracy(value);
   };
 
   const reportInitialized = useIsReportInitialized();
@@ -83,6 +94,16 @@ function App() {
     if (!startDate || !endDate) return true;
 
     if (timestamp > startDate && timestamp < endDate) return true;
+
+    return false;
+  });
+
+  const filterAccuracyReports = filterDateReports.filter(({ coords }) => {
+    const { accuracy } = coords;
+
+    if (!currentAccuracy) return true;
+
+    if (accuracy <= currentAccuracy) return true;
 
     return false;
   });
@@ -123,11 +144,27 @@ function App() {
             libraries={["geometry", "places"]}
           />
         </LayersControl.BaseLayer>
-        <StyledControl position="topright">
-          <DateControl setDates={handleDateChange} />
-        </StyledControl>
       </LayersControl>
-      {filterDateReports.map(({ coords, plague }, index) => {
+      <StyledControl>
+        <ControlButton
+          defaultIcon={faCalendarCheck}
+          label="Espaço de tempo para filtrar as pragas"
+        >
+          <DateControl setDates={handleDateChange} />
+        </ControlButton>
+      </StyledControl>
+      <StyledControl>
+        <ControlButton
+          defaultIcon={faBullseye}
+          label="Acuracia maxima para filtrar as pragas"
+        >
+          <AccuracyControl
+            accuracy={currentAccuracy}
+            setAccuracy={handleAccuracyChange}
+          />
+        </ControlButton>
+      </StyledControl>
+      {filterAccuracyReports.map(({ coords, plague }, index) => {
         const { latitude, longitude } = coords;
         const { name, color } = plagueStore.getPlague(plague);
 

@@ -40,7 +40,7 @@ const DateControl = ({ startDate = "", endDate = "", setDates }) => {
   return (
     <InputsWrapper>
       <ControlWrapper>
-        <StyledLabel>Inicio: </StyledLabel>
+        <StyledLabel>De: </StyledLabel>
         <input
           type="date"
           value={start}
@@ -49,7 +49,7 @@ const DateControl = ({ startDate = "", endDate = "", setDates }) => {
         />
       </ControlWrapper>
       <ControlWrapper>
-        <StyledLabel>Fim: </StyledLabel>
+        <StyledLabel>Há: </StyledLabel>
         <input type="date" value={end} id="end" onChange={handleEndChange} />
       </ControlWrapper>
     </InputsWrapper>

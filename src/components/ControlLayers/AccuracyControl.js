@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { withLeaflet } from "react-leaflet";
 
 const ControlWrapper = styled.div`
   display: flex;
 `;
-const AccuracyControl = ({ accuracy, setAccuracy }) => {
+
+const StyledLabel = styled.span`
+  margin-right: 1rem;
+  min-width: 35px;
+`;
+
+const AccuracyControl = ({ accuracy = 20, setAccuracy }) => {
   const [currentAccuracy, setCurrentAccuracy] = React.useState(accuracy);
 
   React.useEffect(() => {
@@ -14,13 +19,15 @@ const AccuracyControl = ({ accuracy, setAccuracy }) => {
 
   const handleChange = (e) => {
     setCurrentAccuracy(e.target.value);
+    setAccuracy(e.target.value);
   };
 
   return (
     <div>
       <ControlWrapper>
-        <span>Acuracia maxima: </span>
+        <StyledLabel>Acuracia maxima: </StyledLabel>
         <input
+          style={{ maxWidth: "50px" }}
           type="number"
           value={currentAccuracy}
           step={1}
@@ -32,4 +39,4 @@ const AccuracyControl = ({ accuracy, setAccuracy }) => {
   );
 };
 
-export default withLeaflet(AccuracyControl);
+export default AccuracyControl;
