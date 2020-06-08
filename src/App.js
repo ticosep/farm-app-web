@@ -1,9 +1,15 @@
 import React from "react";
-import "./App.css";
-import Map from "./components/Map";
+import Routes from "./routes";
+import { HashRouter as Router } from "react-router-dom";
 
-function App() {
-  return <Map />;
-}
+const basePath = process.env.BASE_PATH || "/";
+
+const App = () => {
+  return (
+    <Router basename={basePath}>
+      <Routes />
+    </Router>
+  );
+};
 
 export default App;
