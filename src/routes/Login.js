@@ -8,7 +8,7 @@ const Login = () => {
   const isAuthorized = useAuthorized();
   const authStore = useAuthStore();
 
-  if (isAuthorized) return <Redirect to={{ pathname: "/employees" }} />;
+  if (isAuthorized) return <Redirect to={{ pathname: "/map" }} />;
 
   const onSubmit = (data) => {
     const { email, password } = data;
