@@ -1,10 +1,11 @@
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Anchor, Box, Button, Grommet, Header, Nav, Text } from "grommet";
-import { grommet } from "grommet/themes";
+import { Anchor, Box, Button, Header, Nav, Text } from "grommet";
 import React from "react";
 
-import { useAuthorized } from "../stores/hooks/useAuthStore";
+import trimoTheme from "../config/theme";
+import { useAuthorized } from "../stores/hooks/useUserStore";
+import { useInitialized } from "../stores/hooks/useUserStore";
+
+console.log(trimoTheme);
 
 const items = [
   { label: "HTML", href: "#" },
@@ -30,13 +31,18 @@ const AppLayout = ({ children }) => {
   const [collapsed, setCollapsed] = React.useState(false);
   const [active, setActive] = React.useState();
   const isAuthorized = useAuthorized();
+  const userInitialized = useInitialized();
 
   if (!isAuthorized) {
-    return <>{children}</>;
+    return <React.Fragment>{children}</React.Fragment>;
+  }
+
+  if (!userInitialized) {
+    return <div>Carregando usúario</div>;
   }
 
   return (
-    <Grommet theme={grommet}>
+    <React.Fragment>
       <Header background="dark-1" pad="medium">
         <Box direction="row" align="center" gap="small">
           <Anchor color="white" href="https://github.com/ShimiSun">
@@ -62,7 +68,7 @@ const AppLayout = ({ children }) => {
         </Nav>
         {children}
       </Box>
-    </Grommet>
+    </React.Fragment>
   );
 };
 

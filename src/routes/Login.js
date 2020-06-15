@@ -1,33 +1,44 @@
+import { Box, Button, Form, TextInput } from "grommet";
 import React from "react";
-import { useAuthorized, useAuthStore } from "../stores/hooks/useAuthStore";
 import { Redirect } from "react-router";
-import { useForm } from "react-hook-form";
+import styled from "styled-components";
+
+import { useAuthorized, useUserStore } from "../stores/hooks/useUserStore";
+
+const MainBox = styled(Box)`
+  width: 100vw;
+  height: 100vh;
+`;
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const [value, setValue] = React.useState({});
+
   const isAuthorized = useAuthorized();
-  const authStore = useAuthStore();
+  const userStore = useUserStore();
 
   if (isAuthorized) return <Redirect to={{ pathname: "/map" }} />;
 
-  const onSubmit = (data) => {
-    const { email, password } = data;
+  const handleSubmit = (value) => {
+    const { email, password } = value;
 
-    authStore.login(email, password);
+    userStore.login(email, password);
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="email" name="email" ref={register({ required: true })} />
-        <input
-          type="password"
-          name="password"
-          ref={register({ required: true })}
-        />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <Box>
+      <Form
+        value={value}
+        onChange={(nextValue) => setValue(nextValue)}
+        onReset={() => setValue({})}
+        onSubmit={handleSubmit}
+      >
+        <TextInput placeholder="E-mail" type="email" name="email" />
+
+        <TextInput placeholder="Senha" type="password" name="password" />
+
+        <Button type="submit" primary label="Login" />
+      </Form>
+    </Box>
   );
 };
 

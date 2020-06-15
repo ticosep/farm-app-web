@@ -1,34 +1,49 @@
-import { types, flow, getSnapshot } from "mobx-state-tree";
+import { autorun } from "mobx";
+import { flow, getSnapshot, types } from "mobx-state-tree";
+
 import api from "../services/api";
 
+const STORAGE_KEY_TOKEN = "token";
+
 const User = types.model({
-  id: types.number,
-  is_worker: types.boolean,
-  is_owner: types.boolean,
-  farms: types.array(types.number),
-  can_create_worker: types.boolean,
-  can_create_tags: types.boolean,
-  name: types.string,
-  surname: types.string,
-  email: types.maybe(types.string),
+  id: types.maybe(types.number),
+  is_worker: types.maybe(types.boolean),
+  is_owner: types.maybe(types.boolean),
+  farms: types.maybe(types.array(types.number)),
+  can_create_worker: types.maybe(types.boolean),
+  can_create_tags: types.maybe(types.boolean),
+  name: types.maybe(types.string),
+  surname: types.maybe(types.string),
+  email: types.maybe(types.maybe(types.string)),
+  current_farm: types.maybe(types.maybe(types.number)),
 });
 
 export const UserStore = types
   .model({
     initialized: false,
-    user: User,
+    token: types.maybe(types.string),
+    user: types.optional(User, {}),
+    loading: false,
   })
-
+  .views((self) => ({
+    get isAuthorized() {
+      return !!self.token;
+    },
+  }))
   .actions((self) => {
     const fetchUser = flow(function* () {
       try {
-        const { user } = yield api.user();
+        const response = yield api.user();
 
-        self.user = user;
+        console.log(response);
+
+        self.user = response.data.user;
+
+        console.log(self.user);
 
         self.initialized = true;
       } catch (e) {
-        self.loading = false;
+        self.initialized = false;
         console.log("login -> e", e);
       }
     });
@@ -36,6 +51,67 @@ export const UserStore = types
     return {
       fetchUser,
     };
-  });
+  })
+
+  .actions((self) => {
+    const initialize = (token) => {
+      self.token = token;
+      // Set the token globaly to future usage in all cases
+      api.setToken(token);
+
+      if (token) {
+        self.fetchUser();
+      }
+    };
+
+    return {
+      initialize,
+    };
+  })
+
+  .actions((self) => {
+    // Make the login with the API, pass the token that come from google, and set the token generated in th API
+    const login = flow(function* (email, password) {
+      self.loading = true;
+
+      try {
+        const { data } = yield api.login({ email, password }).catch((error) => {
+          const { data } = error.response;
+
+          alert(data);
+        });
+        self.initialize(data.token);
+      } catch (e) {
+        console.error(e);
+      }
+
+      self.loading = false;
+    });
+
+    const logout = () => {
+      self.token = undefined;
+    };
+
+    return {
+      login,
+      logout,
+    };
+  })
+  .actions((self) => ({
+    afterCreate: () => {
+      const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+
+      // Case the token is allready in localsotrage initialize with it
+      self.initialize(token || undefined);
+
+      autorun(() => {
+        if (self.token) {
+          localStorage.setItem(STORAGE_KEY_TOKEN, self.token);
+        } else {
+          localStorage.removeItem(STORAGE_KEY_TOKEN);
+        }
+      });
+    },
+  }));
 
 export default UserStore.create();

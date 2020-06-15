@@ -1,6 +1,7 @@
 import React from "react";
-import { useAuthorized } from "../stores/hooks/useAuthStore";
-import { Route, Redirect } from "react-router";
+import { Redirect, Route } from "react-router";
+
+import { useAuthorized } from "../stores/hooks/useUserStore";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const isAuthorized = useAuthorized();

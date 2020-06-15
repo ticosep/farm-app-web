@@ -1,6 +1,4 @@
 import React from "react";
-import { usePlagueStore } from "../stores/hooks/usePlagueStore";
-import { useReportStore } from "../stores/hooks/useReportStore";
 import ReactMapboxGl, { GeoJSONLayer } from "react-mapbox-gl";
 import DrawControl from "react-mapbox-gl-draw";
 
@@ -28,17 +26,6 @@ const geojson = {
 };
 
 const Map = () => {
-  // Use the report store
-  const reportStore = useReportStore();
-  const plagueStore = usePlagueStore();
-
-  const storedReports = reportStore.getReports();
-  const [reports, setReports] = React.useState([...storedReports]);
-
-  React.useEffect(() => {
-    setReports([...reportStore.getReports()]);
-  }, [storedReports.length]);
-
   const Mapbox = ReactMapboxGl({
     accessToken:
       "pk.eyJ1IjoiZWdpc3RvbmV0byIsImEiOiJja2I1ODI3ejYxMWsyMm9ueWY3anoxdmUyIn0.L-vKMOD8_oEhK6LJZocZaQ",
