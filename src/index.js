@@ -1,8 +1,10 @@
+import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+
+import "./index.css";
+
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import "antd/dist/antd.css";
-import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
