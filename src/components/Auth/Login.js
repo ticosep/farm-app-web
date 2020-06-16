@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <LoginBox
       border={{
-        color: "black",
+        color: "dark-1",
         size: "medium",
         style: "solid",
         side: "all",

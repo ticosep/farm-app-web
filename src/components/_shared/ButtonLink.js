@@ -6,12 +6,16 @@ import styled from "styled-components";
 const CustomLink = styled(Link)`
   text-decoration: none;
 `;
+const CustomButton = styled(Button)`
+  font-size: 1rem;
+  border: 0;
+`;
 
 const ButtonLink = ({ to, label, ...props }) => {
   return (
     <>
       <CustomLink to={to}>
-        <Button label={label} {...props} />
+        <CustomButton color="white" label={label} {...props} />
       </CustomLink>
     </>
   );

@@ -29,12 +29,10 @@ const DefaultLayout = ({ children }) => {
 
           <Text>Trimo</Text>
         </Box>
-        <Box direction="row" align="center" gap="small">
-          <Nav direction="row">
-            {items.map(({ label, to }) => (
-              <ButtomLink label={label} to={to} />
-            ))}
-          </Nav>
+        <Box direction="row" align="center">
+          {items.map(({ label, to }) => (
+            <ButtomLink label={label} to={to} />
+          ))}
         </Box>
       </CustomHeader>
       {children}

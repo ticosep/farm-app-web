@@ -10,7 +10,6 @@ export default deepFreeze({
   },
   button: {
     border: {
-      width: "0px",
       radius: "0px",
     },
   },
