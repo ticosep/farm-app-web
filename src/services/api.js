@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const API_BASE = "";
 
 let token = "";
@@ -23,6 +24,8 @@ const instance = axios.create({
 export default {
   setToken,
   login: ({ email, password }) =>
-    instance.post("/login", {  email, password }, config()),
+    instance.post("/login", { email, password }, config()),
+  register: ({ name, surname, cpf, email, password }) =>
+    instance.post("/signup", { name, surname, cpf, email, password }),
   user: () => instance.get("/user", config()),
 };

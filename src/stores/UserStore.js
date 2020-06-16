@@ -1,5 +1,5 @@
 import { autorun } from "mobx";
-import { flow, getSnapshot, types } from "mobx-state-tree";
+import { flow, types } from "mobx-state-tree";
 
 import api from "../services/api";
 
@@ -88,6 +88,19 @@ export const UserStore = types
       self.loading = false;
     });
 
+    // Make the login with the API, pass the token that come from google, and set the token generated in th API
+    const register = flow(function* ({ name, surname, cpf, email, password }) {
+      try {
+        yield api
+          .register({ name, surname, cpf, email, password })
+          .catch((error) => {
+            alert(error);
+          });
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
     const logout = () => {
       self.token = undefined;
     };
@@ -95,6 +108,7 @@ export const UserStore = types
     return {
       login,
       logout,
+      register,
     };
   })
   .actions((self) => ({

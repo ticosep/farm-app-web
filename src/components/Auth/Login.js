@@ -7,7 +7,6 @@ import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
 
 const LoginBox = styled(Box)`
   width: 300px;
-  height: 300px;
 
   padding: 1rem;
 `;
@@ -27,15 +26,7 @@ const Login = () => {
   };
 
   return (
-    <LoginBox
-      border={{
-        color: "dark-1",
-        size: "medium",
-        style: "solid",
-        side: "all",
-      }}
-      background="white"
-    >
+    <LoginBox background="white">
       <Form
         value={value}
         onChange={(nextValue) => setValue(nextValue)}

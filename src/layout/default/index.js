@@ -35,7 +35,7 @@ const DefaultLayout = ({ children }) => {
           ))}
         </Box>
       </CustomHeader>
-      <Box margin={{ top: "large" }}>{children}</Box>
+      <div style={{ marginTop: "50px" }}>{children}</div>
       <CustomFooter>
         <Box flex={true} direction="row" justify="between">
           <Text size="small">
