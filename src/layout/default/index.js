@@ -27,7 +27,6 @@ const DefaultLayout = ({ children }) => {
               />
             </Link>
           </Nav>
-
           <Text>Trimo</Text>
         </Box>
         <Box direction="row" align="center">
@@ -36,8 +35,7 @@ const DefaultLayout = ({ children }) => {
           ))}
         </Box>
       </CustomHeader>
-      {children}
-
+      <Box margin={{ top: "large" }}>{children}</Box>
       <CustomFooter>
         <Box flex={true} direction="row" justify="between">
           <Text size="small">

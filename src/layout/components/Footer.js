@@ -19,6 +19,7 @@ const CustomHeader = ({ children }) => {
       <Box
         pad={{ horizontal: "20rem", vertical: "small" }}
         flex={true}
+        height="20rem"
         direction="row"
         justify="between"
         background="light-3"
@@ -34,26 +35,33 @@ const CustomHeader = ({ children }) => {
             incididunt ut labore et dolore magna aliqua.
           </Text>
         </Box>
-        <Box gap="small">
+        <Box direction="column">
           <Heading level="4">Contato</Heading>
-          <Box gap="small" direction="row" align="center">
+          <Box direction="row" align="center" gap="small">
             <FontAwesomeIcon icon={faMailBulk} />
             <Text>contato@contato.com</Text>
           </Box>
-
-          <Box gap="small" direction="row" align="center">
+          <Box
+            direction="row"
+            margin={{ top: "1rem" }}
+            align="center"
+            gap="small"
+          >
             <FontAwesomeIcon icon={faPhone} />
             <Text>+55 33333-3333</Text>
           </Box>
-
-          <Box gap="small" direction="row" align="center">
+          <Box
+            direction="row"
+            margin={{ top: "1rem" }}
+            align="center"
+            gap="small"
+          >
             <FontAwesomeIcon icon={faBuilding} />
             <Box>
               <Text>Rua Dos bobos, 0</Text>
               <Text>Limeira</Text>
             </Box>
           </Box>
-
           <Box direction="row" margin={{ top: "1rem" }} gap="medium">
             <FontAwesomeIcon icon={faFacebook} />
             <FontAwesomeIcon icon={faYoutube} />
