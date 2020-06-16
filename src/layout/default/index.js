@@ -1,10 +1,11 @@
 import { faWifi } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Anchor, Box, Nav, Text } from "grommet";
+import { Anchor, Box, Heading, Nav, Text } from "grommet";
 import React from "react";
 import { Link } from "react-router-dom";
 
 import ButtomLink from "../../components/_shared/ButtonLink";
+import CustomFooter from "../components/Footer";
 import CustomHeader from "../components/Header";
 
 const items = [
@@ -36,6 +37,14 @@ const DefaultLayout = ({ children }) => {
         </Box>
       </CustomHeader>
       {children}
+
+      <CustomFooter>
+        <Box flex={true} direction="row" justify="between">
+          <Text size="small">
+            © Trimo - 2020 | Todos os direitos reservados
+          </Text>
+        </Box>
+      </CustomFooter>
     </React.Fragment>
   );
 };

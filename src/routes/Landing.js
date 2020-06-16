@@ -20,6 +20,20 @@ const TitleBox = styled(Box)`
   margin-bottom: 1rem;
 `;
 
+const ClientsImg = styled(Image)`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+  margin-right: 2rem;
+  margin-top: 1rem;
+`;
+
+const clients = [
+  { name: "Fazenda bacurau", logo: require("../assets/partners_ex/3.png") },
+  { name: "Fazenda bacurau", logo: require("../assets/partners_ex/3.png") },
+  { name: "Fazenda bacurau", logo: require("../assets/partners_ex/3.png") },
+];
 const Landing = () => {
   return (
     <React.Fragment>
@@ -53,7 +67,7 @@ const Landing = () => {
         flex={true}
         alignContent="center"
         align="center"
-        background="light-3"
+        background="light-1"
       >
         <Box width="100%">
           <Box flex={true} justify="center" align="center">
@@ -70,6 +84,29 @@ const Landing = () => {
             </Box>
           </Box>
           <Image height="600px" src={imgPath} />
+        </Box>
+      </LandingSection>
+
+      <LandingSection
+        direction="row"
+        flex={true}
+        alignContent="center"
+        align="center"
+        background="light-1"
+      >
+        <Box width="100%">
+          <Heading margin="none" level="2">
+            Nossos clientes
+          </Heading>
+          <Box width="100%" direction="row" wrap={true}>
+            {clients.map(({ name, logo }) => {
+              return (
+                <Box>
+                  <ClientsImg src={logo} />
+                </Box>
+              );
+            })}
+          </Box>
         </Box>
       </LandingSection>
     </React.Fragment>
