@@ -2,7 +2,7 @@ import { Anchor, Box, Button, Header, Nav, Text } from "grommet";
 import React from "react";
 import { Redirect } from "react-router";
 
-import { useAuthorized } from "../../stores/hooks/useUserStore";
+import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
 import { useInitialized } from "../../stores/hooks/useUserStore";
 
 const items = [
@@ -30,6 +30,7 @@ const AppLayout = ({ children }) => {
   const [active, setActive] = React.useState();
   const isAuthorized = useAuthorized();
   const userInitialized = useInitialized();
+  const userStore = useUserStore();
 
   if (!isAuthorized) {
     return <Redirect to="/" />;
@@ -54,15 +55,14 @@ const AppLayout = ({ children }) => {
         </Nav>
       </Header>
       <Box fill direction="row">
-        <Nav background="neutral-1">
-          {["Dashboard", "Devices", "Settings"].map((label) => (
-            <SidebarButton
-              key={label}
-              label={label}
-              active={label === active}
-              onClick={() => setActive(label)}
-            />
-          ))}
+        <Nav background="brand">
+          <SidebarButton
+            label="Logout"
+            active={"Logout" === active}
+            onClick={() => {
+              userStore.logout();
+            }}
+          />
         </Nav>
         {children}
       </Box>
