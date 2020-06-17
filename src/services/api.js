@@ -23,8 +23,8 @@ const instance = axios.create({
 
 export default {
   setToken,
-  login: ({ email, password }) =>
-    instance.post("/login", { email, password }, config()),
+  login: ({ email, password }) => instance.post("/login", { email, password }),
+  codeLogin: ({ code }) => instance.post("/login/code", { code }, config()),
   register: ({ name, surname, cpf, email, password }) =>
     instance.post("/signup", { name, surname, cpf, email, password }),
   user: () => instance.get("/user", config()),

@@ -7,6 +7,7 @@ import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
 
 const LoginBox = styled(Box)`
   width: 300px;
+  height: 100%;
 
   padding: 1rem;
 `;

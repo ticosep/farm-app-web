@@ -1,8 +1,9 @@
 import { faWifi } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Anchor, Box, Heading, Nav, Text } from "grommet";
+import { Anchor, Box, Nav, Text } from "grommet";
 import React from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import ButtomLink from "../../components/_shared/ButtonLink";
 import CustomFooter from "../components/Footer";
@@ -13,6 +14,11 @@ const items = [
   { label: "Sign up", to: "/signup" },
   { label: "Sign in code", to: "login/code" },
 ];
+
+const ChildrenWrapper = styled.div`
+  min-height: 466px;
+  margin-top: 50px;
+`;
 
 const DefaultLayout = ({ children }) => {
   return (
@@ -35,7 +41,7 @@ const DefaultLayout = ({ children }) => {
           ))}
         </Box>
       </CustomHeader>
-      <div style={{ marginTop: "50px" }}>{children}</div>
+      <ChildrenWrapper>{children}</ChildrenWrapper>
       <CustomFooter>
         <Box flex={true} direction="row" justify="between">
           <Text size="small">

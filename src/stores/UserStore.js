@@ -88,16 +88,33 @@ export const UserStore = types
       self.loading = false;
     });
 
-    // Make the login with the API, pass the token that come from google, and set the token generated in th API
+    const codeLogin = flow(function* (code) {
+      self.loading = true;
+
+      try {
+        const { data } = yield api.codeLogin({ code }).catch((error) => {
+          const { data } = error.response;
+
+          alert(data);
+        });
+        self.initialize(data.token);
+      } catch (e) {
+        console.error(e);
+      }
+
+      self.loading = false;
+    });
+
     const register = flow(function* ({ name, surname, cpf, email, password }) {
       try {
-        yield api
+        const response = yield api
           .register({ name, surname, cpf, email, password })
           .catch((error) => {
             alert(error);
+            console.log(response);
           });
       } catch (e) {
-        console.error(e);
+        console.log(e);
       }
     });
 
@@ -109,6 +126,7 @@ export const UserStore = types
       login,
       logout,
       register,
+      codeLogin,
     };
   })
   .actions((self) => ({

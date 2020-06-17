@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router";
 
-import CodeLogin from "../components/Auth/CodeLogin";
+import CodeLogin from "./CodeLogin";
 import Landing from "./Landing";
 import Login from "./Login";
 import Map from "./Map";

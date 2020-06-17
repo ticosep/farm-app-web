@@ -2,7 +2,7 @@ import { Box } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
-import LoginForm from "../components/Auth/Login";
+import CodeLoginForm from "../components/Auth/CodeLogin";
 
 const StyledBox = styled(Box)`
   width: 100%;
@@ -12,7 +12,7 @@ const StyledBox = styled(Box)`
 const Login = () => {
   return (
     <StyledBox flex={true} align="center" justify="center">
-      <LoginForm />
+      <CodeLoginForm />
     </StyledBox>
   );
 };
