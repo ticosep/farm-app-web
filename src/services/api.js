@@ -27,5 +27,6 @@ export default {
   codeLogin: ({ code }) => instance.post("/login/code", { code }, config()),
   register: ({ name, surname, cpf, email, password }) =>
     instance.post("/signup", { name, surname, cpf, email, password }),
+  validate: ({ id, email }) => instance.post("/signup/validate", { id, email }),
   user: () => instance.get("/user", config()),
 };

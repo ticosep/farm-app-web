@@ -4,6 +4,7 @@ import { Redirect } from "react-router";
 
 import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
 import { useInitialized } from "../../stores/hooks/useUserStore";
+import ValidateModal from "../components/ValidateModal";
 
 const items = [
   { label: "HTML", href: "#" },
@@ -26,11 +27,12 @@ const SidebarButton = ({ label, ...rest }) => (
 );
 
 const AppLayout = ({ children }) => {
-  const [collapsed, setCollapsed] = React.useState(false);
-  const [active, setActive] = React.useState();
+  const [active, setActive] = React.useState("");
   const isAuthorized = useAuthorized();
   const userInitialized = useInitialized();
   const userStore = useUserStore();
+
+  const user = userStore.user;
 
   if (!isAuthorized) {
     return <Redirect to="/" />;
@@ -38,6 +40,10 @@ const AppLayout = ({ children }) => {
 
   if (!userInitialized) {
     return <div>Carregando usúario</div>;
+  }
+
+  if (!user.validated) {
+    return <ValidateModal id={user.id} email={user.email} />;
   }
 
   return (
@@ -60,6 +66,7 @@ const AppLayout = ({ children }) => {
             label="Logout"
             active={"Logout" === active}
             onClick={() => {
+              setActive("Logout");
               userStore.logout();
             }}
           />

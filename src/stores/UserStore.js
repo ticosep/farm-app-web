@@ -14,8 +14,9 @@ const User = types.model({
   can_create_tags: types.maybe(types.boolean),
   name: types.maybe(types.string),
   surname: types.maybe(types.string),
-  email: types.maybe(types.maybe(types.string)),
-  current_farm: types.maybe(types.maybe(types.number)),
+  email: types.maybe(types.string),
+  current_farm: types.maybe(types.number),
+  validated: types.maybe(types.number),
 });
 
 export const UserStore = types
