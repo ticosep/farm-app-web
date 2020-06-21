@@ -2,14 +2,9 @@ import { Box, Heading, Image, Text } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
-import Login from "../components/Auth/Login";
+import { Container } from "../components/_shared/Container";
 
 const imgPath = require("../assets/layout.png");
-
-const LandingSection = styled(Box)`
-  width: 100%;
-  padding: 1rem 20rem;
-`;
 
 const TextBox = styled(Box)`
   max-width: 30rem;
@@ -37,14 +32,7 @@ const clients = [
 const Landing = () => {
   return (
     <React.Fragment>
-      <LandingSection
-        direction="row"
-        flex={true}
-        justify="between"
-        alignContent="center"
-        align="center"
-        background="brand"
-      >
+      <Container flex={true} background="brand">
         <Box>
           <TitleBox>
             <Heading margin="none">Sua lavoura inteligente</Heading>
@@ -60,10 +48,8 @@ const Landing = () => {
             </Text>
           </TextBox>
         </Box>
-        <Login />
-      </LandingSection>
-      <LandingSection
-        direction="row"
+      </Container>
+      <Container
         flex={true}
         alignContent="center"
         align="center"
@@ -85,10 +71,9 @@ const Landing = () => {
           </Box>
           <Image height="600px" src={imgPath} />
         </Box>
-      </LandingSection>
+      </Container>
 
-      <LandingSection
-        direction="row"
+      <Container
         flex={true}
         alignContent="center"
         align="center"
@@ -108,7 +93,7 @@ const Landing = () => {
             })}
           </Box>
         </Box>
-      </LandingSection>
+      </Container>
     </React.Fragment>
   );
 };

@@ -13,17 +13,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Footer, Heading, Text } from "grommet";
 import React from "react";
 
+import { Container } from "../../components/_shared/Container";
+
 const CustomHeader = ({ children }) => {
   return (
     <React.Fragment>
-      <Box
-        pad={{ horizontal: "20rem", vertical: "small" }}
-        flex={true}
-        height="20rem"
-        direction="row"
-        justify="between"
-        background="light-3"
-      >
+      <Container flex={true} justify="between" background="light-3">
         <Box width="25rem">
           <Heading level="4">Sobre nós</Heading>
           <Text>
@@ -69,14 +64,11 @@ const CustomHeader = ({ children }) => {
             <FontAwesomeIcon icon={faTwitter} />
           </Box>
         </Box>
-      </Box>
-      <Footer
-        flex={true}
-        justify="between"
-        background="light-4"
-        pad={{ horizontal: "20rem", vertical: "small" }}
-      >
-        {children}
+      </Container>
+      <Footer>
+        <Container flex={true} justify="between" background="light-4">
+          {children}
+        </Container>
       </Footer>
     </React.Fragment>
   );

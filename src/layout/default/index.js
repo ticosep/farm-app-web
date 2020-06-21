@@ -5,15 +5,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import ButtomLink from "../../components/_shared/ButtonLink";
+import AuthBox from "../components/AuthBox";
 import CustomFooter from "../components/Footer";
 import CustomHeader from "../components/Header";
-
-const items = [
-  { label: "Sign in", to: "/login" },
-  { label: "Sign up", to: "/signup" },
-  { label: "Sign in code", to: "login/code" },
-];
 
 const ChildrenWrapper = styled.div`
   min-height: 466px;
@@ -35,11 +29,7 @@ const DefaultLayout = ({ children }) => {
           </Nav>
           <Text>Trimo</Text>
         </Box>
-        <Box direction="row" align="center">
-          {items.map(({ label, to }) => (
-            <ButtomLink label={label} to={to} />
-          ))}
-        </Box>
+        <AuthBox />
       </CustomHeader>
       <ChildrenWrapper>{children}</ChildrenWrapper>
       <CustomFooter>
