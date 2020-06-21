@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Container } from "../components/_shared/Container";
+import { mediaQuery } from "../utils/mediaQuery";
 
 const imgPath = require("../assets/layout.png");
 
@@ -24,6 +25,17 @@ const ClientsImg = styled(Image)`
   margin-top: 1rem;
 `;
 
+const StyledContainer = styled(Container)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @media ${mediaQuery.lg} {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+`;
+
 const clients = [
   { name: "Fazenda bacurau", logo: require("../assets/partners_ex/3.png") },
   { name: "Fazenda bacurau", logo: require("../assets/partners_ex/3.png") },
@@ -32,57 +44,52 @@ const clients = [
 const Landing = () => {
   return (
     <React.Fragment>
-      <Container flex={true} background="brand">
-        <Box>
-          <TitleBox>
-            <Heading margin="none">Sua lavoura inteligente</Heading>
-          </TitleBox>
-          <TextBox>
-            <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum
-              dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
-            </Text>
-          </TextBox>
-        </Box>
-      </Container>
-      <Container
-        flex={true}
-        alignContent="center"
-        align="center"
-        background="light-1"
-      >
-        <Box width="100%">
-          <Box flex={true} justify="center" align="center">
-            <Heading margin="none" textAlign="center">
-              Um novo jeito de controlar sua lavoura
-            </Heading>
-            <Box width="40rem">
-              <Text margin="1rem" textAlign="center">
+      <Box background="brand">
+        <StyledContainer>
+          <Box>
+            <TitleBox>
+              <Heading margin="none">Sua lavoura inteligente</Heading>
+            </TitleBox>
+            <TextBox>
+              <Text>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </Text>
-            </Box>
+            </TextBox>
           </Box>
-          <Image height="600px" src={imgPath} />
-        </Box>
-      </Container>
-
-      <Container
-        flex={true}
-        alignContent="center"
-        align="center"
-        background="light-1"
-      >
-        <Box width="100%">
-          <Heading margin="none" level="2">
-            Nossos clientes
-          </Heading>
+        </StyledContainer>
+      </Box>
+      <Box background="light-1">
+        <StyledContainer alignContent="center" align="center">
+          <Box width="100%">
+            <Box flex={true} justify="center" align="center">
+              <Heading margin="none" textAlign="center">
+                Um novo jeito de controlar sua lavoura
+              </Heading>
+              <Box width="40rem">
+                <Text margin="1rem" textAlign="center">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </Text>
+              </Box>
+            </Box>
+            <Image height="600px" src={imgPath} />
+          </Box>
+        </StyledContainer>
+      </Box>
+      <Box background="light-1">
+        <Container width="100%" direction="column">
+          <Box>
+            <Heading margin="none" level="2">
+              Nossos clientes
+            </Heading>
+          </Box>
           <Box width="100%" direction="row" wrap={true}>
             {clients.map(({ name, logo }) => {
               return (
@@ -92,8 +99,8 @@ const Landing = () => {
               );
             })}
           </Box>
-        </Box>
-      </Container>
+        </Container>
+      </Box>
     </React.Fragment>
   );
 };
