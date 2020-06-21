@@ -4,11 +4,12 @@ import { Redirect } from "react-router";
 import styled from "styled-components";
 
 import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
+import { Container } from "../_shared/Container";
 
-const LoginBox = styled(Box)`
-  width: 300px;
-
-  padding: 1rem;
+const LoginBox = styled(Container)`
+  justify-content: center;
+  align-items: center;
+  height: 463px;
 `;
 
 const CodeLogin = () => {
@@ -26,7 +27,7 @@ const CodeLogin = () => {
   };
 
   return (
-    <LoginBox background="white">
+    <LoginBox>
       <Form
         value={value}
         onChange={(nextValue) => setValue(nextValue)}

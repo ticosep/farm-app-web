@@ -10,7 +10,6 @@ import CustomFooter from "../components/Footer";
 import CustomHeader from "../components/Header";
 
 const ChildrenWrapper = styled.div`
-  min-height: 466px;
   margin-top: 50px;
 `;
 

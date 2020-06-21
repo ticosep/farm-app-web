@@ -4,11 +4,12 @@ import { Redirect } from "react-router";
 import styled from "styled-components";
 
 import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
+import { Container } from "../_shared/Container";
 
-const LoginBox = styled(Box)`
-  width: 300px;
-
-  padding: 1rem;
+const SignupBox = styled(Container)`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 const Signup = () => {
@@ -24,7 +25,7 @@ const Signup = () => {
   };
 
   return (
-    <LoginBox background="white">
+    <SignupBox background="white">
       <Form
         value={value}
         onChange={(nextValue) => setValue(nextValue)}
@@ -46,9 +47,16 @@ const Signup = () => {
         <FormField label="E-mail">
           <TextInput required={true} type="email" name="email" />
         </FormField>
+        <FormField label="Confirme o e-mail">
+          <TextInput required={true} type="email" name="email-confirm" />
+        </FormField>
 
         <FormField label="Senha">
           <TextInput required={true} type="password" name="password" />
+        </FormField>
+
+        <FormField label="Confirme a senha">
+          <TextInput required={true} type="password" name="password-confirm" />
         </FormField>
 
         <Box
@@ -59,7 +67,7 @@ const Signup = () => {
           <Button type="submit" primary label="Registrar" />
         </Box>
       </Form>
-    </LoginBox>
+    </SignupBox>
   );
 };
 

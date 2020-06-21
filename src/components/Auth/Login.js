@@ -4,12 +4,12 @@ import { Redirect } from "react-router";
 import styled from "styled-components";
 
 import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
+import { Container } from "../_shared/Container";
 
-const LoginBox = styled(Box)`
-  width: 300px;
-  height: 100%;
-
-  padding: 1rem;
+const LoginBox = styled(Container)`
+  justify-content: center;
+  align-items: center;
+  height: 463px;
 `;
 
 const Login = () => {
