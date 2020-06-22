@@ -9,7 +9,7 @@ import { Container } from "../_shared/Container";
 const LoginBox = styled(Container)`
   justify-content: center;
   align-items: center;
-  height: 463px;
+  height: 100vh;
 `;
 
 const CodeLogin = () => {

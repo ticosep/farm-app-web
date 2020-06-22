@@ -11,6 +11,7 @@ const SignupBox = styled(Container)`
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100vh;
 `;
 
 const StyledForm = styled(Form)`
