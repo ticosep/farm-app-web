@@ -15,21 +15,23 @@ const ValidateModal = ({ id, email }) => {
   if (redirect) return <Redirect to={{ pathname: "/" }} />;
 
   return (
-    <Box>
+    <React.Fragment>
       {show && (
         <Layer>
           {!generating && (
-            <Box flex={true} direction="column" gap="medium" pad="small">
-              <Heading level="4" margin="none">
-                Seu email ainda não foi validado
-              </Heading>
-              <Text>
-                {`Por favor acesse o link enviado para ${email} e tenha acesso a sua
+            <Box flex={true} gap="large" pad="large">
+              <Box direction="column" gap="medium">
+                <Heading level="4" margin="none">
+                  Seu email ainda não foi validado
+                </Heading>
+                <Text>
+                  {`Por favor acesse o link enviado para ${email} e tenha acesso a sua
             conta. 
             Caso não tenha recebido clique no botão novo email, que
             enviaremos um novo link de verificação!`}
-              </Text>
-              <Box flex={true} justify="between" direction="row" gap="small">
+                </Text>
+              </Box>
+              <Box height="50px" justify="between" direction="row" gap="small">
                 <Button
                   label="Novo email"
                   primary
@@ -63,7 +65,7 @@ const ValidateModal = ({ id, email }) => {
           )}
         </Layer>
       )}
-    </Box>
+    </React.Fragment>
   );
 };
 

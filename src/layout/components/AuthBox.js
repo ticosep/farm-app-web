@@ -46,7 +46,7 @@ const MobileMenuIcon = styled(FontAwesomeIcon)`
 `;
 
 const MobileMenu = styled(Box)`
-  display: flex;
+  display: ${(props) => (props.menuActive ? "flex" : "none")};
   position: fixed;
   width: 100%;
   height: 100%;
