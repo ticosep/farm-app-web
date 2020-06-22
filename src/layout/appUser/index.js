@@ -17,6 +17,11 @@ const items = [
   { label: "REACT", href: "#" },
 ];
 
+const ChildrenWrapper = styled(Box)`
+  width: 100vw;
+  height: calc(100vh - 60px);
+`;
+
 const MenuIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
@@ -88,16 +93,6 @@ const AppLayout = ({ children }) => {
 
   return (
     <React.Fragment>
-      <Header background="dark-1" pad="medium">
-        <Box direction="row" align="center" gap="small">
-          <MenuIcon onClick={() => setShow(!show)} icon={faBars} />
-        </Box>
-        <Nav direction="row">
-          {items.map((item) => (
-            <Anchor href={item.href} label={item.label} key={item.label} />
-          ))}
-        </Nav>
-      </Header>
       <Box fill direction="row">
         <NavBarBox show={show} background="brand">
           <MenuMobileCloseIcon icon={faTimes} onClick={() => setShow(false)} />
@@ -114,7 +109,19 @@ const AppLayout = ({ children }) => {
             }}
           />
         </NavBarBox>
-        {children}
+        <Box fill direction="column">
+          <Header height="60px" background="dark-1" pad="medium">
+            <Box direction="row" align="center" gap="small">
+              <MenuIcon onClick={() => setShow(!show)} icon={faBars} />
+            </Box>
+            <Nav direction="row">
+              {items.map((item) => (
+                <Anchor href={item.href} label={item.label} key={item.label} />
+              ))}
+            </Nav>
+          </Header>
+          <ChildrenWrapper>{children}</ChildrenWrapper>
+        </Box>
       </Box>
     </React.Fragment>
   );

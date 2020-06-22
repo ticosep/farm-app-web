@@ -45,8 +45,8 @@ const Map = () => {
     <Mapbox
       style="mapbox://styles/mapbox/satellite-v9"
       containerStyle={{
-        height: "100vh",
-        width: "100vw",
+        height: "100%",
+        width: "100%",
       }}
     >
       <GeoJSONLayer fillPaint={polygonPaint} data={geojson} />
