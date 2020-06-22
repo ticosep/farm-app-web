@@ -1,5 +1,6 @@
-import { Box, Button, Form, FormField, TextInput } from "grommet";
+import { Box, Button, Form, FormField, Text } from "grommet";
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Redirect } from "react-router";
 import styled from "styled-components";
 
@@ -12,52 +13,132 @@ const SignupBox = styled(Container)`
   width: 100%;
 `;
 
+const StyledForm = styled(Form)`
+  min-width: 500px;
+`;
+
 const Signup = () => {
-  const [value, setValue] = React.useState({});
+  const { handleSubmit, control, errors, setError, clearError } = useForm();
 
   const isAuthorized = useAuthorized();
   const userStore = useUserStore();
 
   if (isAuthorized) return <Redirect to={{ pathname: "/map" }} />;
 
-  const handleSubmit = (e) => {
-    userStore.register({ ...e.value });
+  const onSubmit = (data) => {
+    userStore.register({ ...data });
+  };
+
+  const handleChange = (values) => {
+    const { email, email_confirm, password, password_confirm } = values;
+    const errors = [];
+
+    if (email !== email_confirm) {
+      errors.push({
+        type: "required",
+        name: "email_confirm",
+        message: "Os e-mails devem ser iguais!",
+      });
+    } else {
+      clearError("email_confirm");
+    }
+
+    if (password !== password_confirm) {
+      errors.push({
+        type: "required",
+        name: "password_confirm",
+        message: "As senhas devem ser iguais!",
+      });
+    } else {
+      clearError("password_confirm");
+    }
+
+    setError(errors);
   };
 
   return (
     <SignupBox background="white">
-      <Form
-        value={value}
-        onChange={(nextValue) => setValue(nextValue)}
-        onReset={() => setValue({})}
-        onSubmit={handleSubmit}
-      >
-        <FormField label="Nome">
-          <TextInput required={true} type="text" name="name" />
-        </FormField>
+      <StyledForm onSubmit={handleSubmit(onSubmit)} onChange={handleChange}>
+        <Controller
+          name="name"
+          control={control}
+          rules={{ required: true }}
+          as={<FormField label="Nome" type="text" />}
+        />
+        {errors.name && <Text color="status-critical">Campo obrigatório</Text>}
 
-        <FormField label="Sobrenome">
-          <TextInput required={true} type="text" name="surname" />
-        </FormField>
+        <Controller
+          name="surname"
+          control={control}
+          as={<FormField label="Sobrenome" type="text" />}
+        />
 
-        <FormField label="CPF">
-          <TextInput required={true} type="text" name="cpf" />
-        </FormField>
+        <Controller
+          name="cpf"
+          control={control}
+          rules={{
+            required: true,
+            pattern: /^([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}|[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}-?[0-9]{2})$/,
+          }}
+          as={<FormField label="CPF" type="text" />}
+        />
+        {errors.cpf && (
+          <Text color="status-critical">
+            Digite seu CPF no formato 000.000.000-00
+          </Text>
+        )}
 
-        <FormField label="E-mail">
-          <TextInput required={true} type="email" name="email" />
-        </FormField>
-        <FormField label="Confirme o e-mail">
-          <TextInput required={true} type="email" name="email-confirm" />
-        </FormField>
+        <Controller
+          name="email"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          as={<FormField label="E-mail" type="email" />}
+        />
+        {errors.email && (
+          <Text color="status-critical">
+            Digite seu email corretamente, este deve possuir @
+          </Text>
+        )}
 
-        <FormField label="Senha">
-          <TextInput required={true} type="password" name="password" />
-        </FormField>
+        <Controller
+          name="email_confirm"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          as={<FormField label="Confirme o e-mail" type="email" />}
+        />
+        {errors.email_confirm && (
+          <Text color="status-critical">{errors.email_confirm.message}</Text>
+        )}
+        <Controller
+          name="password"
+          control={control}
+          rules={{
+            required: true,
+            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+          }}
+          as={<FormField label="Senha" type="password" />}
+        />
+        {errors.password && (
+          <Text color="status-critical">
+            Senha deve possuir no minimo 8 caractres, uma letra e um número
+          </Text>
+        )}
 
-        <FormField label="Confirme a senha">
-          <TextInput required={true} type="password" name="password-confirm" />
-        </FormField>
+        <Controller
+          name="password_confirm"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          as={<FormField label="Confirme a senha" type="password" />}
+        />
+        {errors.password_confirm && (
+          <Text color="status-critical">{errors.password_confirm.message}</Text>
+        )}
 
         <Box
           margin={{
@@ -66,7 +147,7 @@ const Signup = () => {
         >
           <Button type="submit" primary label="Registrar" />
         </Box>
-      </Form>
+      </StyledForm>
     </SignupBox>
   );
 };
