@@ -5,6 +5,14 @@ import api from "../services/api";
 
 const STORAGE_KEY_TOKEN = "token";
 
+const Farm = types.model({
+  id: types.maybe(types.number),
+  is_paid: types.maybe(types.number),
+  name: types.maybe(types.string),
+  production: types.maybe(types.string),
+  map_features: types.maybe(types.string),
+});
+
 const User = types.model({
   id: types.maybe(types.number),
   is_worker: types.maybe(types.boolean),
@@ -24,6 +32,7 @@ export const UserStore = types
     initialized: false,
     token: types.maybe(types.string),
     user: types.optional(User, {}),
+    farms: types.array(Farm),
     loading: false,
   })
   .views((self) => ({
@@ -34,13 +43,13 @@ export const UserStore = types
   .actions((self) => {
     const fetchUser = flow(function* () {
       try {
-        const response = yield api.user();
+        const userinfo = yield api.user();
 
-        console.log(response);
+        self.user = userinfo.data.user;
 
-        self.user = response.data.user;
+        const farms = yield api.farms();
 
-        console.log(self.user);
+        self.farms = farms.data.farms;
 
         self.initialized = true;
       } catch (e) {
@@ -123,11 +132,16 @@ export const UserStore = types
       self.token = undefined;
     };
 
+    const setCurrentFarm = (farm) => {
+      self.user.current_farm = farm;
+    };
+
     return {
       login,
       logout,
       register,
       codeLogin,
+      setCurrentFarm,
     };
   })
   .actions((self) => ({

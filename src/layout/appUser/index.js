@@ -1,6 +1,6 @@
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Anchor, Box, Button, Header, Image, Nav, Text } from "grommet";
+import { Box, Button, Header, Image, Nav, Text } from "grommet";
 import React from "react";
 import { Redirect } from "react-router";
 import styled from "styled-components";
@@ -8,18 +8,40 @@ import styled from "styled-components";
 import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
 import { useInitialized } from "../../stores/hooks/useUserStore";
 import { mediaQuery } from "../../utils/mediaQuery";
+import FarmSelector from "../components/FarmSelector";
+import UserInfo from "../components/UserInfo";
 import ValidateModal from "../components/ValidateModal";
-
-const items = [
-  { label: "HTML", href: "#" },
-  { label: "JS", href: "#" },
-  { label: "CSS", href: "#" },
-  { label: "REACT", href: "#" },
-];
 
 const ChildrenWrapper = styled(Box)`
   width: 100vw;
   height: calc(100vh - 60px);
+`;
+
+const UserBox = styled(Box)`
+  display: none;
+
+  @media ${mediaQuery.lg} {
+    display: block;
+  }
+`;
+
+const UserBoxMobile = styled(Box)`
+  display: block;
+
+  @media ${mediaQuery.lg} {
+    display: none;
+  }
+`;
+
+const ContentBox = styled(Box)`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  @media ${mediaQuery.lg} {
+    justify-content: flex-start;
+    width: auto;
+  }
 `;
 
 const MenuIcon = styled(FontAwesomeIcon)`
@@ -96,9 +118,12 @@ const AppLayout = ({ children }) => {
       <Box fill direction="row">
         <NavBarBox show={show} background="brand">
           <MenuMobileCloseIcon icon={faTimes} onClick={() => setShow(false)} />
-          <Box align="center" color="white">
+          <Box align="center" justify="center" color="white">
             <Image src={require("../../assets/logo_icon.png")} />
             <Text>Trimo</Text>
+            <UserBoxMobile>
+              <UserInfo />
+            </UserBoxMobile>
           </Box>
           <SidebarButton
             label="Logout"
@@ -110,15 +135,14 @@ const AppLayout = ({ children }) => {
           />
         </NavBarBox>
         <Box fill direction="column">
-          <Header height="60px" background="dark-1" pad="medium">
-            <Box direction="row" align="center" gap="small">
+          <Header height="60px" background="dark-1" pad="medium" gap="none">
+            <ContentBox direction="row" align="center" gap="large">
               <MenuIcon onClick={() => setShow(!show)} icon={faBars} />
-            </Box>
-            <Nav direction="row">
-              {items.map((item) => (
-                <Anchor href={item.href} label={item.label} key={item.label} />
-              ))}
-            </Nav>
+              <FarmSelector />
+            </ContentBox>
+            <UserBox>
+              <UserInfo />
+            </UserBox>
           </Header>
           <ChildrenWrapper>{children}</ChildrenWrapper>
         </Box>
