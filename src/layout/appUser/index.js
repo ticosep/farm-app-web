@@ -1,6 +1,10 @@
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faSignOutAlt,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Header, Image, Nav, Text } from "grommet";
+import { Box, Header, Image, Text } from "grommet";
 import React from "react";
 import { Redirect } from "react-router";
 import styled from "styled-components";
@@ -11,6 +15,7 @@ import { mediaQuery } from "../../utils/mediaQuery";
 import FarmSelector from "../components/FarmSelector";
 import UserInfo from "../components/UserInfo";
 import ValidateModal from "../components/ValidateModal";
+import { SidebarButton, buttons } from "./SideBarButtons";
 
 const ChildrenWrapper = styled(Box)`
   width: 100vw;
@@ -22,14 +27,6 @@ const UserBox = styled(Box)`
 
   @media ${mediaQuery.lg} {
     display: block;
-  }
-`;
-
-const UserBoxMobile = styled(Box)`
-  display: block;
-
-  @media ${mediaQuery.lg} {
-    display: none;
   }
 `;
 
@@ -61,13 +58,12 @@ const MenuMobileCloseIcon = styled(FontAwesomeIcon)`
 
 const NavBarBox = styled(Box)`
   display: ${(props) => (props.show ? "flex" : "none")};
-  padding: 1rem;
-  align-items: center;
-  justify-content: space-between;
-  width: 200px;
+  width: 250px;
   height: 100%;
-  position: absolute;
   top: 0;
+  padding: 1rem 0;
+  position: absolute;
+  align-items: center;
 
   z-index: 10;
 
@@ -78,18 +74,11 @@ const NavBarBox = styled(Box)`
   }
 `;
 
-const SidebarButton = ({ label, ...rest }) => (
-  <Button plain {...rest}>
-    {({ hover }) => (
-      <Box
-        background={hover ? "accent-1" : undefined}
-        pad={{ horizontal: "large", vertical: "medium" }}
-      >
-        <Text size="large">{label}</Text>
-      </Box>
-    )}
-  </Button>
-);
+const ExitBox = styled(Box)`
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+`;
 
 const AppLayout = ({ children }) => {
   const [active, setActive] = React.useState("");
@@ -113,26 +102,40 @@ const AppLayout = ({ children }) => {
     return <ValidateModal id={user.id} email={user.email} />;
   }
 
+  // Filter the buttons to rest only the ones that the user can access
+  const userButtons = buttons.filter(({ isAllowed }) => {
+    return isAllowed(user);
+  });
+
   return (
     <React.Fragment>
       <Box fill direction="row">
         <NavBarBox show={show} background="brand">
           <MenuMobileCloseIcon icon={faTimes} onClick={() => setShow(false)} />
-          <Box align="center" justify="center" color="white">
-            <Image src={require("../../assets/logo_icon.png")} />
-            <Text>Trimo</Text>
-            <UserBoxMobile>
-              <UserInfo />
-            </UserBoxMobile>
-          </Box>
-          <SidebarButton
-            label="Logout"
-            active={"Logout" === active}
-            onClick={() => {
-              setActive("Logout");
-              userStore.logout();
-            }}
-          />
+          {userButtons.map(({ label, icon, to }) => {
+            return (
+              <SidebarButton
+                label={label}
+                active={label === active}
+                icon={icon}
+                to={to}
+                onClick={() => {
+                  setActive(label);
+                }}
+              />
+            );
+          })}
+          <ExitBox>
+            <SidebarButton
+              label="Sair"
+              active={"Sair" === active}
+              icon={faSignOutAlt}
+              to="/"
+              onClick={() => {
+                userStore.logout();
+              }}
+            />
+          </ExitBox>
         </NavBarBox>
         <Box fill direction="column">
           <Header height="60px" background="dark-1" pad="medium" gap="none">
@@ -140,9 +143,11 @@ const AppLayout = ({ children }) => {
               <MenuIcon onClick={() => setShow(!show)} icon={faBars} />
               <FarmSelector />
             </ContentBox>
-            <UserBox>
-              <UserInfo />
-            </UserBox>
+            <Box direction="row" align="center" justify="center" color="white">
+              <Image src={require("../../assets/logo_icon.svg")} />
+              <Text weight="bold">Trimo</Text>
+            </Box>
+            <UserInfo />
           </Header>
           <ChildrenWrapper>{children}</ChildrenWrapper>
         </Box>
