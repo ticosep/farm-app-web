@@ -2,33 +2,32 @@ import { Box, Select } from "grommet";
 import { getSnapshot } from "mobx-state-tree";
 import React from "react";
 
-import { useFarms, useUserStore } from "../../stores/hooks/useUserStore";
+import { useFarms } from "../../stores/hooks/useUserStore";
 
-const FarmSelector = () => {
+const FarmSelector = ({ setCurrentFarm }) => {
   const farms = getSnapshot(useFarms());
-  const store = useUserStore();
   const [value, setValue] = React.useState(undefined);
 
   const handleSelect = (value) => {
     setValue(value);
-    store.setCurrentFarm(+value);
+    setCurrentFarm(+value);
   };
 
   return (
     <Select
       options={farms}
       value={value}
-      placeholder="Fazenda"
+      placeholder="Fazendas"
       labelKey="name"
       plain
       valueLabel={
         <Box width="5rem" overflow="hidden" align="center">
-          {value || "Fazenda"}
+          {value || "Fazendas"}
         </Box>
       }
       valueKey={{ key: "id", reduce: true }}
       onChange={({ value: nextValue }) => handleSelect(nextValue)}
-    />
+    ></Select>
   );
 };
 

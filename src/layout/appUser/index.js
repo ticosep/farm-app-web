@@ -12,33 +12,14 @@ import styled from "styled-components";
 import { useAuthorized, useUserStore } from "../../stores/hooks/useUserStore";
 import { useInitialized } from "../../stores/hooks/useUserStore";
 import { mediaQuery } from "../../utils/mediaQuery";
-import FarmSelector from "../components/FarmSelector";
+import FarmsMenu from "../components/FarmsMenu";
+import { SidebarButton, buttons } from "../components/SideBarButtons";
 import UserInfo from "../components/UserInfo";
 import ValidateModal from "../components/ValidateModal";
-import { SidebarButton, buttons } from "./SideBarButtons";
 
 const ChildrenWrapper = styled(Box)`
   width: 100vw;
   height: calc(100vh - 60px);
-`;
-
-const UserBox = styled(Box)`
-  display: none;
-
-  @media ${mediaQuery.lg} {
-    display: block;
-  }
-`;
-
-const ContentBox = styled(Box)`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-
-  @media ${mediaQuery.lg} {
-    justify-content: flex-start;
-    width: auto;
-  }
 `;
 
 const MenuIcon = styled(FontAwesomeIcon)`
@@ -74,14 +55,6 @@ const NavBarBox = styled(Box)`
   }
 `;
 
-const LogoBox = styled(Box)`
-  display: none;
-
-  @media ${mediaQuery.lg} {
-    display: flex;
-  }
-`;
-
 const ExitBox = styled(Box)`
   position: absolute;
   bottom: 1rem;
@@ -96,7 +69,7 @@ const AppLayout = ({ children }) => {
   const userInitialized = useInitialized();
   const userStore = useUserStore();
 
-  const user = userStore.user;
+  const { user } = userStore;
 
   if (!isAuthorized) {
     return <Redirect to="/" />;
@@ -146,21 +119,24 @@ const AppLayout = ({ children }) => {
           </ExitBox>
         </NavBarBox>
         <Box fill direction="column">
-          <Header height="60px" background="dark-1" pad="medium" gap="none">
-            <ContentBox direction="row" align="center" gap="large">
-              <MenuIcon onClick={() => setShow(!show)} icon={faBars} />
-              <FarmSelector />
-            </ContentBox>
-            <LogoBox
-              direction="row"
-              align="center"
-              justify="center"
-              color="white"
-            >
+          <Header
+            height="60px"
+            justify="between"
+            align="center"
+            direction="row"
+            background="dark-1"
+            pad="medium"
+            gap="none"
+          >
+            <MenuIcon onClick={() => setShow(!show)} icon={faBars} />
+            <Box direction="row" align="center" color="white">
               <Image src={require("../../assets/logo_icon.svg")} />
               <Text weight="bold">Trimo</Text>
-            </LogoBox>
-            <UserInfo />
+            </Box>
+            <Box direction="row" align="center" gap="small">
+              <FarmsMenu />
+              <UserInfo />
+            </Box>
           </Header>
           <ChildrenWrapper>{children}</ChildrenWrapper>
         </Box>

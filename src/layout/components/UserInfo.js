@@ -1,46 +1,23 @@
-import { faTractor, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Menu } from "grommet";
+import { Avatar } from "grommet";
 import { getSnapshot } from "mobx-state-tree";
 import React from "react";
-import styled from "styled-components";
+import { useHistory } from "react-router";
 
 import { useUser } from "../../stores/hooks/useUserStore";
-import { mediaQuery } from "../../utils/mediaQuery";
-
-const StyledMenu = styled(Menu)`
-  span {
-    width: 5rem;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  @media ${mediaQuery.md} {
-    span {
-      width: auto;
-    }
-  }
-`;
 
 const UserInfo = () => {
   const user = getSnapshot(useUser());
+  const history = useHistory();
+
+  const userLetter = String(user.name).slice(0, 1);
   return (
-    <StyledMenu
-      dropProps={{ align: { top: "bottom", left: "left" } }}
-      label={`${user.name} ${user.surname}`}
-      items={[
-        {
-          label: "Profile",
-          icon: <FontAwesomeIcon icon={faUser} />,
-          gap: "small",
-        },
-        {
-          label: "Fazendas",
-          icon: <FontAwesomeIcon icon={faTractor} />,
-          gap: "small",
-        },
-      ]}
-    />
+    <Avatar
+      background="brand"
+      size="2rem"
+      onClick={() => history.push("/profile")}
+    >
+      {userLetter}
+    </Avatar>
   );
 };
 
