@@ -74,6 +74,14 @@ const NavBarBox = styled(Box)`
   }
 `;
 
+const LogoBox = styled(Box)`
+  display: none;
+
+  @media ${mediaQuery.lg} {
+    display: flex;
+  }
+`;
+
 const ExitBox = styled(Box)`
   position: absolute;
   bottom: 1rem;
@@ -143,10 +151,15 @@ const AppLayout = ({ children }) => {
               <MenuIcon onClick={() => setShow(!show)} icon={faBars} />
               <FarmSelector />
             </ContentBox>
-            <Box direction="row" align="center" justify="center" color="white">
+            <LogoBox
+              direction="row"
+              align="center"
+              justify="center"
+              color="white"
+            >
               <Image src={require("../../assets/logo_icon.svg")} />
               <Text weight="bold">Trimo</Text>
-            </Box>
+            </LogoBox>
             <UserInfo />
           </Header>
           <ChildrenWrapper>{children}</ChildrenWrapper>

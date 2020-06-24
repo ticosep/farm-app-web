@@ -3,13 +3,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "grommet";
 import { getSnapshot } from "mobx-state-tree";
 import React from "react";
+import styled from "styled-components";
 
 import { useUser } from "../../stores/hooks/useUserStore";
+import { mediaQuery } from "../../utils/mediaQuery";
+
+const StyledMenu = styled(Menu)`
+  span {
+    width: 5rem;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  @media ${mediaQuery.md} {
+    span {
+      width: auto;
+    }
+  }
+`;
 
 const UserInfo = () => {
   const user = getSnapshot(useUser());
   return (
-    <Menu
+    <StyledMenu
       dropProps={{ align: { top: "bottom", left: "left" } }}
       label={`${user.name} ${user.surname}`}
       items={[
