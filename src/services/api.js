@@ -30,4 +30,6 @@ export default {
   validate: ({ id, email }) => instance.post("/signup/validate", { id, email }),
   user: () => instance.get("/user", config()),
   farms: () => instance.get("farm/user", config()),
+  createFarm: ({ name, production }) =>
+    instance.post("farm/create", { name, production }, config()),
 };

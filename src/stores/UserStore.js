@@ -10,7 +10,8 @@ const Farm = types.model({
   is_paid: types.maybe(types.number),
   name: types.maybe(types.string),
   production: types.maybe(types.string),
-  map_features: types.maybe(types.string),
+  map_features: types.maybeNull(types.string),
+  location: types.maybeNull(types.string),
 });
 
 const User = types.model({
@@ -136,11 +137,26 @@ export const UserStore = types
       self.user.current_farm = farm;
     };
 
+    const createFarm = flow(function* ({ name, production }) {
+      self.loading = true;
+
+      try {
+        const { data } = yield api.createFarm({ name, production });
+        self.farms.push({ id: +data.id, name, production, is_paid: 0 });
+        self.user.farms.push(+data.id);
+      } catch (e) {
+        console.error(e);
+      }
+
+      self.loading = false;
+    });
+
     return {
       login,
       logout,
       register,
       codeLogin,
+      createFarm,
       setCurrentFarm,
     };
   })
