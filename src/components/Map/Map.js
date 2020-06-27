@@ -1,6 +1,9 @@
 import React from "react";
-import ReactMapboxGl, { GeoJSONLayer } from "react-mapbox-gl";
+import { GeoJSONLayer } from "react-mapbox-gl";
+import ReactMapboxGl from "react-mapbox-gl";
 import DrawControl from "react-mapbox-gl-draw";
+
+import { Mapbox } from "../_shared/MapBox";
 
 const geojson = {
   type: "FeatureCollection",
@@ -26,11 +29,6 @@ const geojson = {
 };
 
 const Map = () => {
-  const Mapbox = ReactMapboxGl({
-    accessToken:
-      "pk.eyJ1IjoiZWdpc3RvbmV0byIsImEiOiJja2I1ODI3ejYxMWsyMm9ueWY3anoxdmUyIn0.L-vKMOD8_oEhK6LJZocZaQ",
-  });
-
   const handleDraw = (e) => {
     const str = JSON.stringify(e.features);
     console.log(str);

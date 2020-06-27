@@ -2,7 +2,6 @@ import {
   faCheck,
   faPen,
   faPlus,
-  faPlusSquare,
   faTimes,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";

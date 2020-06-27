@@ -21,10 +21,7 @@ const StyledForm = styled(Form)`
 const Signup = () => {
   const { handleSubmit, control, errors, setError, clearError } = useForm();
 
-  const isAuthorized = useAuthorized();
   const userStore = useUserStore();
-
-  if (isAuthorized) return <Redirect to={{ pathname: "/map" }} />;
 
   const onSubmit = (data) => {
     userStore.register({ ...data });
