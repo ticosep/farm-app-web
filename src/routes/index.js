@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router";
 
 import FarmsTable from "../components/Farms/FarmsTable";
+import TagsTable from "../components/Tags/TagsTable";
 import CodeLogin from "./CodeLogin";
 import Landing from "./Landing";
 import Login from "./Login";
@@ -18,6 +19,7 @@ const Routes = () => {
       <Route path="/signup" exact component={Signup} />
       <PrivateRoute path="/map" exact component={Map} />
       <PrivateRoute path="/farms" exact component={FarmsTable} />
+      <PrivateRoute path="/tags" exact component={TagsTable} />
     </Switch>
   );
 };

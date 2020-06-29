@@ -32,4 +32,5 @@ export default {
   farms: () => instance.get("farm/user", config()),
   createFarm: ({ name, production }) =>
     instance.post("farm/create", { name, production }, config()),
+  getTags: ({ farm_id }) => instance.get(`/tag/${farm_id}`, config()),
 };
